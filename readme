@@ -1,0 +1,58 @@
+# 🚽 Smart Toilet Automation System
+
+This Arduino project automates restroom access control using sensors, a servo door, a DC motor, and Blynk integration. It enhances hygiene and monitoring by allowing remote control based on flow, distance, and presence detection.
+
+## 📌 Features
+
+- 🚶 IR sensor detects human presence.
+- 💧 Flow sensor monitors water flow rate.
+- 📏 Ultrasonic sensor checks water level.
+- 🔐 Servo motor controls the door.
+- ⚙️ DC motor controlled based on sensor states.
+- 📲 Blynk app used for:
+  - Unlocking the door remotely.
+  - Receiving usage alerts.
+
+## 🧠 Logic Flow
+
+1. IR sensor detects entry and increments a count.
+2. When `count >= 20`, a message is sent to Blynk to unlock the door.
+3. On even counts:
+   - Ultrasonic sensor checks if water level is sufficient.
+   - If yes, opens the door and runs DC motor.
+   - If water is low, closes the door and stops the motor.
+4. On odd counts:
+   - Flow sensor monitors usage.
+   - If flow rate > threshold, starts the motor.
+   - If not, stops the motor.
+
+## 🔌 Hardware Used
+
+| Component             | Description                  |
+|----------------------|------------------------------|
+| NodeMCU (ESP8266)     | Wi-Fi enabled microcontroller |
+| Flow Sensor           | Detects water flow            |
+| Ultrasonic Sensor     | Measures water tank level     |
+| IR Sensor             | Detects human presence        |
+| Servo Motor (SG90)    | Controls toilet door          |
+| DC Motor + Driver (L298N) | Controls flushing or water pump |
+| Blynk App             | Remote control via mobile     |
+
+## 🧾 Libraries Required
+
+Install these via Arduino Library Manager:
+
+- `BlynkSimpleEsp8266`
+- `ESP8266WiFi`
+- `Servo`
+
+## 📲 Blynk Configuration
+
+Replace these in the code with your actual credentials:
+
+```cpp
+#define BLYNK_TEMPLATE_ID "TMPL3805U44uf"
+#define BLYNK_TEMPLATE_NAME "smart toilet"
+char auth[] = "YourAuthToken";
+char ssid[] = "YourWiFiSSID";
+char pass[] = "YourWiFiPassword";
